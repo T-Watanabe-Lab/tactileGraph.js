@@ -238,7 +238,7 @@ var tactileGraphic = function(id, size, type, aug, aug2) {
       ["?","26"], ["\{","2356"], ["\}","2356"], ["\^"," "],
       ["$","56"], ["-","36"], ["\|","456"], ["\/","34"]];
       for(var i= 0 ; i < a.length ; i++){ //エスケープが必要な文字を先に文字列として比較
-        if(letter === a[i][0]){console.log(letter);return a[i][1];}
+        if(letter === a[i][0]){return a[i][1];}
       }
 
       for(var j = 0 ; j < arrLetter.length ; j++){ //>
@@ -326,7 +326,6 @@ var tactileGraphic = function(id, size, type, aug, aug2) {
     var int;
     if(Adjust){
       int = d/dotted;
-      console.log(int);
     }else{
       int = interval;
     }
@@ -578,7 +577,6 @@ var tactileGraphic = function(id, size, type, aug, aug2) {
       return 0;
     });
 
-    console.log(tempArr);
     var s = 0;
     var str = "";
     var leng = tempArr.length;
@@ -587,7 +585,6 @@ var tactileGraphic = function(id, size, type, aug, aug2) {
       var Y = (tempArr[int] - x) / 10000; //Y座標を取得
       var S = x % 10 + 1; //点種を取得
       var X = (x-S) /10; //X座標を取得
-      console.log(Y);
       if(tempArr[int-1] !== tempArr[int] && X < sizeX && Y < sizeY){  //重複した座標と領域の外側の座標を除外
         if(S===s){str += num2edi(parseInt(X,10)) + num2edi(parseInt(Y,10));}        //前の点と点種が同じ場合
         else{str += "\n" + S + num2edi(parseInt(X,10)) + num2edi(parseInt(Y,10));} //異なる場合は改行して行頭に数字を置く

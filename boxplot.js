@@ -85,7 +85,6 @@ function makeLQ(numArray) {   ///第1四分位数
      mlq = numArray[num6];
    }
  }
-  //console.log(mlq);
   return mlq;
 }
 
@@ -110,7 +109,6 @@ function makeUQ(numArray) {   ///第3四分位数
    var max = numArray[2];
    var med = numArray[1];
    var min = numArray[0];
-   console.log("b");
  }
   if(numArray.length % 2 === 0) {
     if((numArray.length/2) % 2 === 0) {
@@ -164,7 +162,6 @@ function drawGraph(){//////// ＊ここからが実行開始////////////////////
   uq = [];
   med = [];
   for(var i = 0; i<numArray.length; i++) { //各要素の配列を作成
-      //console.log(numArray[i]);
       var ma = Math.max.apply(null,numArray[i]);
       max.push(ma);
       var mi = Math.min.apply(null,numArray[i]);
@@ -238,8 +235,10 @@ if(1 <= MAX && MAX < 5)scale=5;
 if(5 <= MAX && MAX < 10)scale=10;
 if(10 <= MAX)scale=10+5*(Math.floor((MAX-10)/5)+1);
 
-tg.drawLine(85,40,100-DS,40);
-tg.drawLine(85,320,100-DS,320);
+tg.drawLine(88, 40, 100-DS, 40); //上部の目盛り
+
+var gy = top + h/2; ///////////////グリッドの高さの指定
+tg.drawLine(88, gy, 100-DS, gy); //中段の目盛り
 tg.drawBraille(scale, 30, 40);
 tg.drawBraille(Math.floor(scale/2), 30, 320);
 tg.setDot(0);
@@ -247,9 +246,8 @@ tg.setDot(0);
 var j=0;
 var flag=true;
 
-var gy = 410;///////////////グリッドの高さ
 
-for(var i=106; i<600; i+=GS) {
+for(var i=106; i<600; i+=GS) {    /////グリッド線の描画
   var y1= bottom-h*max[j]/MAX;
   var y2 = bottom-h*min[j]/MAX;
   var y3 = bottom-h*uq[j]/MAX;
@@ -338,17 +336,17 @@ if(1 <= MAX && MAX < 5)scale=5;
 if(5 <= MAX && MAX < 10)scale=10;
 if(10 <= MAX)scale=10+5*(Math.floor((MAX-10)/5)+1);
 
-cp.drawLine(85,40,100-DS,40);
-cp.drawLine(85,320,100-DS,320);
+cp.drawLine(88, 40, 100-DS, 40); //上部の目盛り
+var gy = top + h/2; ///////////////グリッドの高さ
+cp.drawLine(88, gy, 100-DS, gy); //中段の目盛り
 cp.drawBraille(scale, 30, 40);
 cp.drawBraille(Math.floor(scale/2), 30, 320);
+cp.setDot(0);
 
 cp.setDot(0);
 
 var j=0;
 var flag=true;
-
-var gy = 410;///////////////グリッドの高さ
 
 for(var i=106; i<600; i+=GS) {
   var y1= bottom-h*max[j]/MAX;
