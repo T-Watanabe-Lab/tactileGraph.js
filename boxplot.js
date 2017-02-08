@@ -201,39 +201,46 @@ var GS = 7; //グリッド線の間隔
 
 tg.setDot(1);
 for(var i=0; i < len; i++) {
-    var y1= bottom-h*max[i]/MAX;
-    var y2 = bottom-h*min[i]/MAX;
-    var y3 = bottom-h*uq[i]/MAX;
-    var y4 = bottom-h*lq[i]/MAX;
-    var y5 = bottom-h*med[i]/MAX;
-    console.log(y4);
-    console.log(y2);
-    
-    if(y1 < y5-DS){
-      tg.drawLine(w*i+x, y1, w*(i+1)-s+x, y1, 3);//最大値
+    var ymax= bottom-h*max[i]/MAX;
+    var ymin = bottom-h*min[i]/MAX;
+    var yuq = bottom-h*uq[i]/MAX;
+    var ylq = bottom-h*lq[i]/MAX;
+    var ymed = bottom-h*med[i]/MAX;
+    console.log(ylq);
+    console.log(ymin);
+
+    if(ymax < yuq-DS){
+      tg.drawLine(w*i+x, ymax, w*(i+1)-s+x, ymax, 3);//最大値
     }
-    if(y2 > y5+DS && y2 < bottom - DS){
-      tg.drawLine(w*i+x, y2, w*(i+1)-s+x, y2, 3);//最小値
+
+    if(ymin > ylq+DS && ymin < bottom - DS){
+      tg.drawLine(w*i+x, ymin, w*(i+1)-s+x, ymin, 3);//最小値
     }
-    if(y3 <= y5-DS && y3 >= y1 + DS){
-      tg.drawLine(w*i+x, y3, w*(i+1)-s+x, y3); //第1四分位
-      tg.drawLine(w*i+x, y3, w*i+x, y5, 3);              //箱の左の第1四分位から中央値までの縦線
-      tg.drawLine(w*(i+1)-s+x, y3, w*(i+1)-s+x, y5, 3);  //箱の右の第1四分位から中央値までの縦線
+
+    if(yuq <= ymed-DS){
+      tg.drawLine(w*i+x, yuq, w*(i+1)-s+x, yuq); //第1四分位
+      tg.drawLine(w*i+x, yuq, w*i+x, ymed, 3);              //箱の左の第1四分位から中央値までの縦線
+      tg.drawLine(w*(i+1)-s+x, yuq, w*(i+1)-s+x, ymed, 3);  //箱の右の第1四分位から中央値までの縦線
     }
-    if(y4 >= y5-DS && y4 <= y2 - DS){
-      tg.drawLine(w*i+x, y4, w*(i+1)-s+x, y4); //第3四分位
-      tg.drawLine(w*i+x, y5, w*i+x, y4, 3);              //箱の左の中央値から第3四分位までの縦線
-      tg.drawLine(w*(i+1)-s+x, y5, w*(i+1)-s+x, y4, 3);  //箱の右の中央値から第3四分位までの縦線
+
+    if(ylq >= ymed-DS){
+      tg.drawLine(w*i+x, ylq, w*(i+1)-s+x, ylq); //第3四分位
+      tg.drawLine(w*i+x, ymed, w*i+x, ylq, 3);              //箱の左の中央値から第3四分位までの縦線
+      tg.drawLine(w*(i+1)-s+x, ymed, w*(i+1)-s+x, ylq, 3);  //箱の右の中央値から第3四分位までの縦線
     }
-    if(y5 < bottom - DS){
-      tg.drawLine(w*i+x, y5, w*(i+1)-s+x, y5); //中央値
+
+    if(ymed < bottom - DS){
+      tg.drawLine(w*i+x, ymed, w*(i+1)-s+x, ymed); //中央値
     }
-    if((y3-DS)-(y1+DS) > 0){
-      tg.drawLine(w*i+(w-s)/2+x, y1, w*i+(w-s)/2+x, y3, 3);//上部のヒゲの縦線
+
+    if((yuq-DS)-(ymax+DS) > 0){
+      tg.drawLine(w*i+(w-s)/2+x, ymax, w*i+(w-s)/2+x, yuq, 3);//上部のヒゲの縦線
     }
-    if((y2-DS)-(y4+DS) > 0){
-      tg.drawLine(w*i+(w-s)/2+x, y4, w*i+(w-s)/2+x, y2, 3);//下部のヒゲの縦線
+
+    if((ymin-DS)-(ylq+DS) > 0){
+      tg.drawLine(w*i+(w-s)/2+x, ylq, w*i+(w-s)/2+x, ymin, 3);//下部のヒゲの縦線
     }
+
     tg.drawLine(w*i+(w-s)/2+x, 605, w*i+(w-s)/2+x, 617); //グラフ下のポイント線
     tg.drawBraille(tag[i], w*i+(w-s)/2+x-10, 630);  //要素の名称
 }
@@ -241,7 +248,7 @@ for(var i=0; i < len; i++) {
 tg.drawLine(88, 40, 100-DS, 40); //上部の目盛り
 tg.drawBraille(MAX, 30, 40);
 
-var gy = top + h/2; ///////////////グリッドの高さの指定
+var gy = top + h/2;     ///////////////グリッドの高さの指定
 tg.drawLine(88, gy, 100-DS, gy); //中段の目盛り
 tg.drawBraille(MAX/2, 30, 320);
 tg.setDot(0);
@@ -249,13 +256,12 @@ tg.setDot(0);
 var j=0;
 var flag=true;
 
-
-for(var i=106; i<600; i+=GS) {    /////グリッド線の描画
-  var y1= bottom-h*max[j]/MAX;
-  var y2 = bottom-h*min[j]/MAX;
-  var y3 = bottom-h*uq[j]/MAX;
-  var y4 = bottom-h*lq[j]/MAX;
-  var y5 = bottom-h*med[j]/MAX;
+for(var i=106; i<600; i+=GS) {  /////グリッド線の描画
+  var ymax= bottom-h*max[j]/MAX;
+  var ymin = bottom-h*min[j]/MAX;
+  var yuq = bottom-h*uq[j]/MAX;
+  var ylq = bottom-h*lq[j]/MAX;
+  var ymed = bottom-h*med[j]/MAX;
 
   if(w*j+x-GS < i) {
     if(w*(j+1)-s+x+GS < i){
@@ -266,18 +272,18 @@ for(var i=106; i<600; i+=GS) {    /////グリッド線の描画
     }else{
         flag = true;
       //5つの値による判定
-      if(gy < y1- GS || gy > y2 + GS){ //最大値以上、最低値以下なら点を描画
+      if(gy < ymax- GS || gy > ymin + GS){ //最大値以上、最低値以下なら点を描画
         tg.drawDot(i,gy);
       }
 
-      if((gy > y1 + GS && gy < y3 - GS) || (gy > y4 + GS && gy < y2 - GS)){ //ヒゲ部分
+      if((gy > ymax + GS && gy < yuq - GS) || (gy > ylq + GS && gy < ymin - GS)){ //ヒゲ部分のグリッド線の描画
         if(i < w*j+(w-s)/2+x-GS || i > w*j+(w-s)/2+x+GS ){
-          tg.drawDot(i,gy);
+          tg.drawDot(i, gy);
         }
       }
     }
   }else{
-    tg.drawDot(i,gy);
+    tg.drawDot(i, gy);
   }
 }
 /////////////////////////// 以下に立体コピーの描画処理///////////////////////////////
@@ -293,36 +299,36 @@ DS = 0; //点間隔
 
 cp.setDot(1);
 for(var i=0; i < len; i++) {
-    var y1= bottom-h*max[i]/MAX;
-    var y2 = bottom-h*min[i]/MAX;
-    var y3 = bottom-h*uq[i]/MAX;
-    var y4 = bottom-h*lq[i]/MAX;
-    var y5 = bottom-h*med[i]/MAX;
-    if(y1 < y5-DS){
-      cp.drawLine(w*i+x, y1, w*(i+1)-s+x, y1);//最大値
+    var ymax= bottom-h*max[i]/MAX;
+    var ymin = bottom-h*min[i]/MAX;
+    var yuq = bottom-h*uq[i]/MAX;
+    var ylq = bottom-h*lq[i]/MAX;
+    var ymed = bottom-h*med[i]/MAX;
+    if(ymax < ymed-DS){
+      cp.drawLine(w*i+x, ymax, w*(i+1)-s+x, ymax);//最大値
     }
-    if(y2 > y5+DS && y2 < bottom - DS){
-      cp.drawLine(w*i+x, y2, w*(i+1)-s+x, y2);//最小値
+    if(ymin > ymed+DS && ymin < bottom - DS){
+      cp.drawLine(w*i+x, ymin, w*(i+1)-s+x, ymin);//最小値
     }
-    if(y3 < y5-DS && y3 > y1 + DS){
-      cp.drawLine(w*i+x, y3, w*(i+1)-s+x, y3); //第1四分位
+    if(yuq < ymed-DS && yuq > ymax + DS){
+      cp.drawLine(w*i+x, yuq, w*(i+1)-s+x, yuq); //第1四分位
     }
-    if(y4 > y5-DS && y4 < y2 - DS){
-      cp.drawLine(w*i+x, y4, w*(i+1)-s+x, y4); //第3四分位
+    if(ylq > ymed-DS && ylq < ymin - DS){
+      cp.drawLine(w*i+x, ylq, w*(i+1)-s+x, ylq); //第3四分位
     }
-    if(y5 < bottom - DS){
-      cp.drawLine(w*i+x, y5, w*(i+1)-s+x, y5); //中央値
+    if(ymed < bottom - DS){
+      cp.drawLine(w*i+x, ymed, w*(i+1)-s+x, ymed); //中央値
     }
-    if((y3-DS)-(y1+DS) > 6){
-      cp.drawLine(w*i+(w-s)/2+x, y1+DS, w*i+(w-s)/2+x, y3-DS);//上部のヒゲの縦線
-    }
-    cp.drawLine(w*i+x, y3, w*i+x, y5);              //箱の左の第1四分位から中央値までの縦線
-    cp.drawLine(w*(i+1)-s+x, y3, w*(i+1)-s+x, y5);  //箱の右の第1四分位から中央値までの縦線
-    cp.drawLine(w*i+x, y5, w*i+x, y4);              //箱の左の中央値から第3四分位までの縦線
-    cp.drawLine(w*(i+1)-s+x, y5, w*(i+1)-s+x, y4);  //箱の右の中央値から第3四分位までの縦線
-    if((y2-DS)-(y4+DS) > 6){
-      cp.drawLine(w*i+(w-s)/2+x, y4+DS, w*i+(w-s)/2+x, y2-DS);//下部のヒゲの縦線
-    }
+
+    cp.drawLine(w*i+(w-s)/2+x, ymax+DS, w*i+(w-s)/2+x, yuq-DS);//上部のヒゲの縦線
+
+    cp.drawLine(w*i+x, yuq, w*i+x, ymed);              //箱の左の第1四分位から中央値までの縦線
+    cp.drawLine(w*(i+1)-s+x, yuq, w*(i+1)-s+x, ymed);  //箱の右の第1四分位から中央値までの縦線
+    cp.drawLine(w*i+x, ymed, w*i+x, ylq);              //箱の左の中央値から第3四分位までの縦線
+    cp.drawLine(w*(i+1)-s+x, ymed, w*(i+1)-s+x, ylq);  //箱の右の中央値から第3四分位までの縦線
+
+    cp.drawLine(w*i+(w-s)/2+x, ylq+DS, w*i+(w-s)/2+x, ymin-DS);//下部のヒゲの縦線
+
     cp.drawLine(w*i+(w-s)/2+x, 600, w*i+(w-s)/2+x, 620); //グラフ下のポイント線
     cp.drawBraille(tag[i], w*i+(w-s)/2+x-10, 630);  //要素の名称
 }
@@ -339,11 +345,11 @@ var j=0;
 var flag=true;
 
 for(var i=106; i<600; i+=GS) {
-  var y1= bottom-h*max[j]/MAX;
-  var y2 = bottom-h*min[j]/MAX;
-  var y3 = bottom-h*uq[j]/MAX;
-  var y4 = bottom-h*lq[j]/MAX;
-  var y5 = bottom-h*med[j]/MAX;
+  var ymax= bottom-h*max[j]/MAX;
+  var ymin = bottom-h*min[j]/MAX;
+  var yuq = bottom-h*uq[j]/MAX;
+  var ylq = bottom-h*lq[j]/MAX;
+  var ymed = bottom-h*med[j]/MAX;
 
   if(w*j+x-GS < i) {
     if(w*(j+1)-s+x+GS < i){
@@ -354,11 +360,11 @@ for(var i=106; i<600; i+=GS) {
     }else{
         flag = true;
       //5つの値による判定
-      if(gy < y1- GS || gy > y2 + GS){ //最大値以上、最低値以下なら点を描画
+      if(gy < ymax- GS || gy > ymin + GS){ //最大値以上、最低値以下なら点を描画
         cp.drawDot(i,gy);
       }
 
-      if((gy > y1 + GS && gy < y3 - GS) || (gy > y4 + GS && gy < y2 - GS)){ //ヒゲ部分
+      if((gy > ymax + GS && gy < yuq - GS) || (gy > ylq + GS && gy < ymin - GS)){ //ヒゲ部分
         if(i < w*j+(w-s)/2+x-GS || i > w*j+(w-s)/2+x+GS ){
           cp.drawDot(i,gy);
         }
