@@ -33,11 +33,20 @@ var capsule = function(id){
     cx.stroke();
   },
 
+  drawDot:function(x, y) {
+    cx.beginPath();
+    cx.arc(x*RATIO, y*RATIO, 2, 0, Math.PI*2, false);
+    cx.fill();
+  },
+
   setDot:function(num){
     switch(num){
-      case 0: cx.lineWidth=1;break;
-      case 1: cx.lineWidth=4;break;
-      case 2: cx.lineWidth=7;break;
+      case 0: cx.lineWidth=3;
+              cx.setLineDash([5, 5]);break;
+      case 1: cx.lineWidth=8;
+              cx.setLineDash([0]);break;
+      case 2: cx.lineWidth=12;
+              cx.setLineDash([0]);break;
     }
   },
 
