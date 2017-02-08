@@ -316,20 +316,26 @@ var tactileGraphic = function(id, size, type, aug, aug2) {
     this.drawBraille(str, x,y);
   },
 /////////////////////////////////////////////////////////////////////////////////////
-  drawLine:function(x1, y1, x2, y2) {     ///////点線の描画処理//////
+  drawLine:function(x1, y1, x2, y2, flag) {     ///////点線の描画処理//////
     if(y2 === undefined)return this.drawLine(fromX, fromY, x1, y1);
     fromX = x2;
     fromY = y2;
     var d = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)); //distance
     var rad = Math.atan2(y2 - y1, x2 - x1);
     var dotted = Math.floor(d / interval);
+    if(dotted===0)dotted = 1;
     var int;
     if(Adjust){
       int = d/dotted;
     }else{
       int = interval;
     }
-    for (var i = 0; i <= dotted; i++) {
+    var i=0;
+
+    if(flag === 1 || flag === 3) i=1;
+    if(flag === 2|| flag === 3) dotted--;
+
+    for (; i <= dotted; i++) {
       var x3 = Math.cos(rad) * int * i + x1;
       var y3 = Math.sin(rad) * int * i + y1;
       this.drawDot(x3, y3);
