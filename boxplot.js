@@ -38,8 +38,19 @@ function createnumArray(arr) { ///CSVテキストから配列を作成
     narr.push(arr[i]);
     tag.push(nam); //名前配列の作成
   }
+
+  for(var k=0; k<narr.length; k++){
+    var std = standard_deviation(narr[k]); //各要素配列の標準偏差を求める
+    
+  }
   return narr;
 }
+
+function standard_deviation(data){ //標準偏差を求める
+    var varia = variance(data);  // 分散を求める
+    return Math.sqrt(varia);  // 分散の平方根
+}
+
 
       /////関数作成////
 

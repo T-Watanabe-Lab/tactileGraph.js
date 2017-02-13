@@ -251,7 +251,7 @@ var tactileGraphic = function(id, size, type, aug, aug2) {
           return arrLetter[j][1];
         }
       }
-      alert("文字列に点字に変換出来ない文字が含まれています。");
+      console.log("文字列に点字に変換出来ない文字が含まれています。");
       return "none";
     }
     return this.arr2braille(arr,x,y,returnX);
