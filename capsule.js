@@ -24,6 +24,7 @@ var capsule = function(id){
     cx.font= style;
     cx.fillStyle = "black";
     str=tg.convertText(str);
+    str=tg.convertBrailleMath(str);
     cx.fillText( str, x*RATIO, y*RATIO);
   },
 
