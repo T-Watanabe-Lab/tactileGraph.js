@@ -1,5 +1,6 @@
 var file = document.querySelector('#getfile'); //htmlの「ファイルを開く」のIDを設定
 var txt = document.querySelector('#txt');      //htmlのテキストエリアのIDを設定
+var txt2 = document.querySelector('#txt2');      //htmlのテキストエリアのIDを設定
 var tg = tactileGraphic(); // tactileGraph.jsの設定
 tg.setAdjust(true); //点間隔の自動調整の設定
 var cp = capsule('b');  //立体コピー画像描画用ライブラリの読み込み
@@ -212,7 +213,7 @@ function drawGraph(){  //////// ＊ここからが実行開始//////////////////
       ave.push(average(numArray[i])); //各要素配列の平均を求める
       std.push(standard_deviation(numArray[i])); //各要素配列の標準偏差を求める
   }
-}
+
 console.log(ave);
 console.log(std);
 /////////////////////////// 以下にグラフの描画処理///////////////////////////////
@@ -412,8 +413,13 @@ for(var i=106; i<600; i+=GS) {
     cp.drawDot(i,gy);
   }
 }
-//////////////////////////////// ここまで ///////////////////////////////////////
-
+//////////////////////////////// テキストエリアに結果を描画する ///////////////////////////////////////
+var str = "要素名,最大値,第一四分位,中央値,第三四分位,最低値\n";
+for(var i = 0; i<max.length; i++){
+  str += tag[i] + ", " + max[i] + ", " + uq[i] + ", " + med[i] + ", " + lq[i] + ", " + min[i] + "\n";
+}
+txt2.value = str;
+}
 /////////////////////////////////////////////////
 //////////////以下、ダウンロード用の設定////////
 var filename = "box plot";
